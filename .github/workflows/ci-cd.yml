@@ -1,0 +1,74 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - dev
+      - stage
+      - prod
+      - main
+      - 'feature/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+    
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Lint Code (Flake8)
+      run: |
+        pip install flake8
+        flake8 .
+
+    - name: Run Unit Tests
+      run: |
+        pip install pytest
+        pytest
+
+  deploy_dev:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/dev'
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Deploy to Vercel (Dev)
+      run: npx vercel --token ${{ secrets.VERCEL_TOKEN }} --env FLASK_ENV=development
+
+  deploy_stage:
+    runs-on: ubuntu-latest
+    needs: deploy_dev
+    if: github.ref == 'refs/heads/stage'
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Deploy to Vercel (Stage)
+      run: npx vercel --token ${{ secrets.VERCEL_TOKEN }} --env FLASK_ENV=staging
+
+  deploy_prod:
+    runs-on: ubuntu-latest
+    needs: deploy_stage
+    if: github.ref == 'refs/heads/prod'
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Deploy to Vercel (Production)
+      run: npx vercel --token ${{ secrets.VERCEL_TOKEN }} --prod --env FLASK_ENV=production
