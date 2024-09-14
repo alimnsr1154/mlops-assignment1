@@ -15,7 +15,7 @@ def predict():
     try:
         data = request.json
         # Extract features from the input JSON data
-        features = np.array([[
+        features = np.array([[ 
             data['longitude'],
             data['latitude'],
             data['housing_median_age'],
@@ -44,3 +44,4 @@ def index():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
