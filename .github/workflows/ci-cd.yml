@@ -58,8 +58,8 @@ jobs:
       run: |
         git fetch origin
         git checkout stage || git checkout -b stage
-        git pull origin stage  # Pull changes from remote stage branch
-        git merge dev --allow-unrelated-histories  # Merge dev into stage
+        git pull origin/dev
+        git merge origin/dev --allow-unrelated-histories || true 
         git push origin stage
 
   push_to_prod:
