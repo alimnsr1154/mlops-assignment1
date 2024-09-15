@@ -1,12 +1,14 @@
 import pytest
 from app import app
 
+
 # Fixture to create a test client
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
     with app.test_client() as client:
         yield client
+
 
 # Test for a successful prediction with valid input data
 def test_predict_success(client):
@@ -20,14 +22,13 @@ def test_predict_success(client):
         'households': 126.0,
         'median_income': 8.3252
     }
-    
     response = client.post('/predict', json=input_data)
-    
     # Assert that the prediction was successful
     assert response.status_code == 200
     json_data = response.get_json()
     assert 'prediction' in json_data
     assert isinstance(json_data['prediction'], float)
+
 
 # Test for a successful prediction with different valid input data
 def test_predict_success_different_data(client):
@@ -41,14 +42,13 @@ def test_predict_success_different_data(client):
         'households': 280.0,
         'median_income': 5.0000
     }
-    
     response = client.post('/predict', json=input_data)
-    
     # Assert that the prediction was successful
     assert response.status_code == 200
     json_data = response.get_json()
     assert 'prediction' in json_data
     assert isinstance(json_data['prediction'], float)
+
 
 # Test for a successful prediction with edge case input data
 def test_predict_success_edge_case(client):
@@ -62,9 +62,7 @@ def test_predict_success_edge_case(client):
         'households': 80.0,
         'median_income': 2.5000
     }
-    
     response = client.post('/predict', json=input_data)
-    
     # Assert that the prediction was successful
     assert response.status_code == 200
     json_data = response.get_json()
