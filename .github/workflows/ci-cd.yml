@@ -52,7 +52,7 @@ jobs:
       run: |
         git checkout stage || git checkout -b stage
         git pull origin stage      # Pull changes from remote stage branch
-        git merge dev              # Merge dev branch into local stage branch
+        git merge dev --allow-unrelated-histories  # Merge dev branch into local stage branch
         git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/alimnsr1154/mlops-assignment1.git stage
 
   push_to_prod:
@@ -75,7 +75,7 @@ jobs:
         PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
         git checkout prod || git checkout -b prod
-        git merge origin/stage
+        git merge origin/stage --allow-unrelated-histories  # Merge stage branch into local prod branch
         git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/alimnsr1154/mlops-assignment1.git prod
 
   deploy_prod:
