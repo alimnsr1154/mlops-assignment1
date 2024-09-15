@@ -7,7 +7,6 @@ on:
       - stage
       - prod
       - main
-      - 'feature/**'
 
 jobs:
   test:
@@ -35,9 +34,9 @@ jobs:
     - name: Run Unit Tests
       run: |
         pip install pytest
-        pytest .
+        pytest
 
-  deploy_dev:
+  push_to_stage:
     runs-on: ubuntu-latest
     needs: test
     if: github.ref == 'refs/heads/dev'
@@ -46,12 +45,16 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v2
 
-    - name: Deploy to Vercel (Dev)
-      run: npx vercel --token ${{ secrets.VERCEL_TOKEN }} --env FLASK_ENV=development
+    - name: Push to Stage Branch
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "GitHub Action"
+        git checkout -b stage
+        git push origin stage
 
   deploy_stage:
     runs-on: ubuntu-latest
-    needs: deploy_dev
+    needs: push_to_stage
     if: github.ref == 'refs/heads/stage'
 
     steps:
@@ -61,9 +64,25 @@ jobs:
     - name: Deploy to Vercel (Stage)
       run: npx vercel --token ${{ secrets.VERCEL_TOKEN }} --env FLASK_ENV=staging
 
-  deploy_prod:
+  push_to_prod:
     runs-on: ubuntu-latest
     needs: deploy_stage
+    if: github.ref == 'refs/heads/stage'
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Push to Prod Branch
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "GitHub Action"
+        git checkout -b prod
+        git push origin prod
+
+  deploy_prod:
+    runs-on: ubuntu-latest
+    needs: push_to_prod
     if: github.ref == 'refs/heads/prod'
 
     steps:
