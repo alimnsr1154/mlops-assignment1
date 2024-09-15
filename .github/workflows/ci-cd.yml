@@ -55,7 +55,6 @@ jobs:
       env:
         PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
-        git fetch
         git checkout stage || git checkout -b stage
         git merge dev
         git push origin stage
