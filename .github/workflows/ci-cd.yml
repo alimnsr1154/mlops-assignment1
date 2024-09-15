@@ -57,7 +57,7 @@ jobs:
       run: |
         git fetch
         git checkout stage || git checkout -b stage
-        git merge dev --allow-unrelated-histories
+        git merge dev --allow-unrelated-histories || true
         git push origin stage
 
   push_to_prod:
@@ -81,7 +81,7 @@ jobs:
       run: |
         git fetch
         git checkout prod || git checkout -b prod
-        git merge origin/stage --allow-unrelated-histories
+        git merge origin/stage --allow-unrelated-histories || true
         git push origin prod
 
   deploy_prod:
