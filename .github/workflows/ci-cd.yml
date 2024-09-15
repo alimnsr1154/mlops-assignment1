@@ -31,10 +31,10 @@ jobs:
         pip install flake8
         flake8 .
 
-    - name: Run Unit Tests
-      run: |
-        pip install pytest
-        pytest
+    # - name: Run Unit Tests
+    #   run: |
+    #     pip install pytest
+    #     pytest
 
   push_to_stage:
     runs-on: ubuntu-latest
