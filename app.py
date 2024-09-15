@@ -9,7 +9,6 @@ CORS(app)  # Enable CORS
 # Load the model
 model = joblib.load('model.pkl')
 
-
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
@@ -36,12 +35,9 @@ def predict():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
 @app.route('/')
 def index():
     return app.send_static_file('index.html')
 
-
 if __name__ == '__main__':
     app.run(debug=True)
-

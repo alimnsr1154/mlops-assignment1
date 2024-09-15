@@ -29,4 +29,3 @@ model.fit(X_train, y_train)
 
 # Save the model
 joblib.dump(model, 'model.pkl')
-
