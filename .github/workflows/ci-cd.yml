@@ -49,13 +49,13 @@ jobs:
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
         git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git
+        git config pull.rebase false  # Set merge strategy to merge
       
     
     - name: Push to Stage Branch
       env:
         PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
-        git fetch
         git checkout stage || git checkout -b stage
         git pull origin dev 
         git push origin stage
