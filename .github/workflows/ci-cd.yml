@@ -44,7 +44,7 @@ jobs:
       run: |
         git config --local user.email "alimansoor4493@gmail.com"
         git config --local user.name "GitHub Action"
-        git config pull.rebase true  # Set rebase strategy to handle divergences
+       
       
     
     - name: Push to Stage Branch
@@ -52,7 +52,7 @@ jobs:
         PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
         git checkout stage || git checkout -b stage
-        git pull origin stage --rebase  # Rebase on top of the latest stage branch
+        git merge dev
         git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/alimnsr1154/mlops-assignment1.git stage
 
   push_to_prod:
@@ -68,14 +68,13 @@ jobs:
       run: |
         git config --local user.email "alimansoor4493@gmail.com"
         git config --local user.name "GitHub Action"
-        git config pull.rebase false  # Set merge strategy
-
+        
     - name: Push to Prod Branch
       env:
         PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
         git checkout prod || git checkout -b prod
-        git merge origin/stage --allow-unrelated-histories  # Merge stage branch into local prod branch
+        git merge origin/stage
         git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/alimnsr1154/mlops-assignment1.git prod
 
   deploy_prod:
