@@ -50,7 +50,8 @@ jobs:
         PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
         git checkout stage || git checkout -b stage
-        git merge dev
+        git pull origin stage      # Pull changes from remote stage branch
+        git merge dev              # Merge dev branch into local stage branch
         git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/alimnsr1154/mlops-assignment1.git stage
 
   deploy_stage:
