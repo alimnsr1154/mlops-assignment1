@@ -49,9 +49,8 @@ jobs:
       env:
         PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
-        git checkout -b stage
-        git pull origin stage --no-rebase  # Merge the remote changes into the local stage branch
-        git merge dev                      # Merge the dev branch into stage
+        git checkout stage || git checkout -b stage
+        git merge dev
         git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/alimnsr1154/mlops-assignment1.git stage
 
   deploy_stage:
@@ -84,9 +83,8 @@ jobs:
       env:
         PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
-        git checkout -b prod
-        git pull origin prod --no-rebase  # Merge the remote changes into the local stage branch
-        git merge stage                      # Merge the dev branch into stage
+        git checkout prod || git checkout -b prod
+        git merge origin/stage
         git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/alimnsr1154/mlops-assignment1.git prod
 
   deploy_prod:
