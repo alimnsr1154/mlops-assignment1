@@ -1,0 +1,6 @@
+[
+  "test.py::test_index",
+  "test.py::test_predict_invalid_data",
+  "test.py::test_predict_missing_key",
+  "test.py::test_predict_success"
+]
