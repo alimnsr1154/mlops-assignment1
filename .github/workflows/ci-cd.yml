@@ -7,6 +7,7 @@ on:
       - stage
       - prod
       - main
+      - 'feature/**'
 
 jobs:
   test:
@@ -45,12 +46,17 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v2
 
-    - name: Push to Stage Branch
+    - name: Configure Git with PAT
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "GitHub Action"
+    
+    - name: Push to Stage Branch
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      run: |
         git checkout -b stage
-        git push origin stage
+        git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/alimnsr1154/mlops-assignment1.git stage
 
   deploy_stage:
     runs-on: ubuntu-latest
@@ -73,12 +79,17 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v2
 
-    - name: Push to Prod Branch
+    - name: Configure Git with PAT
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "GitHub Action"
+
+    - name: Push to Prod Branch
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      run: |
         git checkout -b prod
-        git push origin prod
+        git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/alimnsr1154/mlops-assignment1.git prod
 
   deploy_prod:
     runs-on: ubuntu-latest
