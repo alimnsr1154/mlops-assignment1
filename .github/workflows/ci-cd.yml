@@ -7,7 +7,6 @@ on:
       - stage
       - prod
       - main
-      - 'feature/**'
 
 jobs:
   test:
@@ -32,11 +31,6 @@ jobs:
         pip install flake8
         flake8 .
 
-    # - name: Run Unit Tests
-    #   run: |
-    #     pip install pytest
-    #     pytest
-
   push_to_stage:
     runs-on: ubuntu-latest
     needs: test
@@ -48,12 +42,12 @@ jobs:
 
     - name: Configure Git with PAT
       run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.email "alimansoor4493@gmail.com"
         git config --local user.name "GitHub Action"
     
     - name: Push to Stage Branch
       env:
-        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+        PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
         git checkout -b stage
         git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/alimnsr1154/mlops-assignment1.git stage
@@ -81,12 +75,12 @@ jobs:
 
     - name: Configure Git with PAT
       run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.email "alimansoor4493@gmail.com"
         git config --local user.name "GitHub Action"
 
     - name: Push to Prod Branch
       env:
-        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+        PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
         git checkout -b prod
         git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/alimnsr1154/mlops-assignment1.git prod
