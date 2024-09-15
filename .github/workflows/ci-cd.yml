@@ -35,7 +35,7 @@ jobs:
     - name: Run Unit Tests
       run: |
         pip install pytest
-        pytest
+        pytest .
 
   deploy_dev:
     runs-on: ubuntu-latest

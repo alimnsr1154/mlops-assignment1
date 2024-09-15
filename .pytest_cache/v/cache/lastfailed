@@ -1,4 +1,3 @@
 {
-  "test.py::test_index": true,
-  "test.py::test_predict_success": true
+  "test.py::test_index": true
 }

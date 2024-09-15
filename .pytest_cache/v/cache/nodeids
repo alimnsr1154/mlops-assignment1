@@ -2,5 +2,7 @@
   "test.py::test_index",
   "test.py::test_predict_invalid_data",
   "test.py::test_predict_missing_key",
-  "test.py::test_predict_success"
+  "test.py::test_predict_success",
+  "test.py::test_predict_success_different_data",
+  "test.py::test_predict_success_edge_case"
 ]
