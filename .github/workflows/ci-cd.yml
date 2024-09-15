@@ -44,6 +44,7 @@ jobs:
       run: |
         git config --local user.email "alimansoor4493@gmail.com"
         git config --local user.name "GitHub Action"
+        git config pull.rebase false  # Set merge strategy
     
     - name: Push to Stage Branch
       env:
@@ -67,6 +68,7 @@ jobs:
       run: |
         git config --local user.email "alimansoor4493@gmail.com"
         git config --local user.name "GitHub Action"
+        git config pull.rebase false  # Set merge strategy
 
     - name: Push to Prod Branch
       env:
