@@ -1,5 +1,9 @@
 name: CI/CD Pipeline
 
+# Ensure the workflow has write permissions
+permissions:
+  contents: write
+
 on:
   push:
     branches:
@@ -42,9 +46,9 @@ jobs:
 
     - name: Configure Git with PAT
       run: |
-        git config --local user.email "alimansoor4493@gmail.com"
-        git config --local user.name "GitHub Action"
-       
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git
       
     
     - name: Push to Stage Branch
@@ -53,7 +57,7 @@ jobs:
       run: |
         git checkout stage || git checkout -b stage
         git merge dev
-        git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/alimnsr1154/mlops-assignment1.git stage
+        git push origin stage
 
   push_to_prod:
     runs-on: ubuntu-latest
@@ -66,8 +70,9 @@ jobs:
 
     - name: Configure Git with PAT
       run: |
-        git config --local user.email "alimansoor4493@gmail.com"
-        git config --local user.name "GitHub Action"
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git
         
     - name: Push to Prod Branch
       env:
@@ -75,7 +80,7 @@ jobs:
       run: |
         git checkout prod || git checkout -b prod
         git merge origin/stage
-        git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/alimnsr1154/mlops-assignment1.git prod
+        git push origin prod
 
   deploy_prod:
     runs-on: ubuntu-latest
