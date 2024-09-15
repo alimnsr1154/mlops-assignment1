@@ -58,7 +58,7 @@ jobs:
       run: |
         git fetch origin
         git checkout stage || git checkout -b stage
-        git pull origin/dev
+        git pull origin dev
         git push origin stage
 
   push_to_prod:
