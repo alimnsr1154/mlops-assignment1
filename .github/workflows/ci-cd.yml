@@ -50,6 +50,8 @@ jobs:
         PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
         git checkout -b stage
+        git pull origin stage  # Pull the latest changes from the remote stage branch
+        git merge dev          # Merge the dev branch into stage
         git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/alimnsr1154/mlops-assignment1.git stage
 
   deploy_stage:
@@ -83,6 +85,8 @@ jobs:
         PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
         git checkout -b prod
+        git pull origin prod  # Pull the latest changes from the remote stage branch
+        git merge stage          # Merge the dev branch into stage
         git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/alimnsr1154/mlops-assignment1.git prod
 
   deploy_prod:
